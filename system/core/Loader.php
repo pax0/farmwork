@@ -12,8 +12,7 @@ class Loader
 	protected static $prefixes = [];
 
 	/**
-	 * 在 SPL 自动加载器栈中注册加载器
-	 *
+	 * PSR4
 	 * @return void
 	 */
 	public static function register()
@@ -26,25 +25,22 @@ class Loader
 	 *
 	 * @param string $prefix 命名空间前缀
 	 * @param string $base_dir 命名空间中类文件的基目录
-	 * @param bool $prepend 为 True 时，将基目录插到最前，这将让其作为第一个被搜索到，否则插到将最后。
+	 * @param bool $sort 为 True 时，把目录插在注册数组的最前面。
 	 * @return void
 	 */
-	public static function addNamespace($prefix, $base_dir, $prepend = false)
+	public static function addNamespace($prefix, $base_dir, $sort = false)
 	{
-		// 规范化命名空间前缀
+		// 规范参数
 		$prefix = trim($prefix, '\\') . '\\';
-
-		// 规范化文件基目录
-		$base_dir = rtrim($base_dir, '/') . DIRECTORY_SEPARATOR;
 		$base_dir = rtrim($base_dir, DIRECTORY_SEPARATOR) . '/';
 
-		// 初始化命名空间前缀数组
+		// 初始化命名新的注册数组元素
 		if (isset(self::$prefixes[$prefix]) === false) {
 			self::$prefixes[$prefix] = [];
 		}
 
-		// 将命名空间前缀与文件基目录对插入保存数组
-		if ($prepend) {
+		// 将命名空间前缀与文件基目录对插入保存到注册数组
+		if ($sort) {
 			array_unshift(self::$prefixes[$prefix], $base_dir);
 		} else {
 			array_push(self::$prefixes[$prefix], $base_dir);
@@ -109,9 +105,6 @@ class Loader
 			$file = $base_dir
 				. str_replace('\\', DIRECTORY_SEPARATOR, $relative_class)
 				. '.php';
-			$file = $base_dir
-				. str_replace('\\', '/', $relative_class)
-				. '.php';
 
 			// 当文件存在时，载入之
 			if (self::requireFile($file)) {
@@ -133,7 +126,7 @@ class Loader
 	protected static function requireFile($file)
 	{
 		if (file_exists($file)) {
-			require $file;
+			require_once $file;
 			return true;
 		}
 		return false;

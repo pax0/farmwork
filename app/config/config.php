@@ -16,13 +16,12 @@ return [
 	'cache_path'     =>    APP_PATH . 'cache' .DS,    //缓存存放路径
 	'cache_prefix'     =>    'cache_',    //缓存文件前缀
 	'cache_type'     =>    'file',        //缓存类型（只实现 file 类型）
-	'compile_path'     =>    APP_PATH . 'compile' .DS,    //编译文件存放路径
 
 	'view_path'    => APP_PATH . 'views' . DS,    // 模板路径
 	'view_suffix'  => '.php',    // 模板后缀
 	'rewrite_short_tags' => true,
 
-	'auto_cache'     => true,    //开启自动缓存
+	'auto_cache'     => false,    //开启自动缓存
 	'url_html_suffix'        => 'html',     // URL伪静态后缀
 
 ];

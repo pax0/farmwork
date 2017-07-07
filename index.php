@@ -6,4 +6,3 @@ define('CORE_PATH', ROOT_PATH . 'system' . DS . 'core' . DS);    //定义框架�
 
 
 require CORE_PATH . 'Tk.php';
-core\App::run();

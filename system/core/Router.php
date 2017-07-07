@@ -118,15 +118,21 @@ class Router
 
 		if ($uri === '/' OR $uri === '')
 		{
+			$this->route_url['controller'] = ucfirst(Config::get('default_controller'));
+			$this->route_url['action'] = Config::get('default_action');
 			return;
 		}
 
 		$arr = explode('/', trim($uri, '/'));
 		if (isset($arr[0]) && !empty($arr[0])) {
-			$this->route_url['controller'] = $arr[0];
+			$this->route_url['controller'] = ucfirst($arr[0]);
 		}
 		if (isset($arr[1]) && !empty($arr[1])) {
 			$this->route_url['action'] = $arr[1];
+		}
+		else
+		{
+			$this->route_url['action'] = Config::get('default_action');
 		}
 	}
 }

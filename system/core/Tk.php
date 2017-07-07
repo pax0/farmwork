@@ -14,3 +14,18 @@ $loader->register();    //注册命名空间
 
 //加载全局配置
 \core\Config::set(include CONF_PATH . 'config.php');
+
+$RTR = new core\Router();
+$RTR->pathinfoToArray();
+
+$OUT = new core\Output();
+
+$class = $RTR->route_url['controller'];
+$method = $RTR->route_url['action'];
+
+include_once APP_PATH . 'controllers' . DS . $class . '.php';
+
+$TK = new $class;
+$TK->$method();
+$OUT->_display();
+
